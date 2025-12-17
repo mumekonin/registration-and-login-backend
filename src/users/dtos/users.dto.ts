@@ -1,4 +1,4 @@
-import { IsAlpha, IsNotEmpty, IsString } from "class-validator";
+import { IsAlpha, IsEmail, IsNotEmpty, IsString } from "class-validator";
 export class UserDto{
 @IsString()
 @IsAlpha()
@@ -10,7 +10,7 @@ lastName:string;
 username:string;
 @IsString()
 password:string;
-@IsString()
+@IsEmail({},{message:"invalid email format"})
 email:string;
 }
 

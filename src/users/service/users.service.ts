@@ -20,6 +20,12 @@ export class UserService{
           if(existingName){
             throw new BadRequestException("user already exists with this username")
           }
+          const existingEmail = await this.userModel.findOne({
+            email:userDto.email.toLowerCase()
+          })
+          if(existingEmail){
+            throw new BadRequestException("user already exists with this email")
+          }
          //hash password
          const hashedPassword =await bcrypt.hash(userDto.password,10)
          //preparing  an instance to save in data base
