@@ -5,6 +5,7 @@ import { UserShema } from "../schema/users.schema";
 import { Model } from "mongoose";
 import * as bcrypt from "bcrypt";
 import { UserResponse } from "../response/users.response";
+import { CommmonUtils } from "../common/utils";
 @Injectable()
 export class UserService{
       constructor(
@@ -51,6 +52,14 @@ export class UserService{
        if(!isPwdMatch){
           throw new BadRequestException("invalid password");
       }
-     return "login successful";
+      const jwtData={
+        firstName:user.firstName,
+        lastName:user.lastName,
+        username:user.username 
+      };
+      const generateJwtToken = CommmonUtils.generateJwtToken(jwtData)
+      return {
+        assesToken:generateJwtToken
+      }
    }
 }
