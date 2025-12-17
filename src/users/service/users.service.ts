@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { UserDto } from "../dtos/users.dto";
+import { UserDto ,LoginDto} from "../dtos/users.dto";
 import { InjectModel } from "@nestjs/mongoose";
 import { UserShema } from "../schema/users.schema";
 import { Model } from "mongoose";
@@ -39,5 +39,18 @@ export class UserService{
          }
          return userResponse;
       } 
-      
+      async userLogin(loginDto:LoginDto){
+       const user = await this.userModel.findOne({
+        username:loginDto.username.toLowerCase()
+       }) ;
+       if(!user){
+        throw new BadRequestException("invalid username");
+       }
+       //compere the password
+       const isPwdMatch = await  bcrypt.compare(loginDto.password,user.password);
+       if(!isPwdMatch){
+          throw new BadRequestException("invalid password");
+      }
+     return "login successful";
+   }
 }

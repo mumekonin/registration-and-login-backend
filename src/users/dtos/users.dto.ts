@@ -1,4 +1,4 @@
-import { IsAlpha, IsString } from "class-validator";
+import { IsAlpha, IsNotEmpty, IsString } from "class-validator";
 export class UserDto{
 @IsString()
 @IsAlpha()
@@ -12,4 +12,13 @@ username:string;
 password:string;
 @IsString()
 email:string;
+}
+
+export class LoginDto{
+@IsString()
+@IsNotEmpty()
+username:string;
+@IsString()
+@IsNotEmpty()
+password:string;
 }
